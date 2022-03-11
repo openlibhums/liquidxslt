@@ -5,8 +5,10 @@ from django.contrib.admin.views.decorators import staff_member_required
 
 from core import models
 from plugins.liquidxslt import forms, logic
+from security import decorators
 
 
+@decorators.has_journal
 @staff_member_required
 def manager(request):
     xsl_files = models.XSLFile.objects.all()
@@ -39,6 +41,7 @@ def manager(request):
     return render(request, template, context)
 
 
+@decorators.has_journal
 @staff_member_required
 def edit_xslt_file(request, xsl_file_id):
     xsl_file = get_object_or_404(
