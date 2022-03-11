@@ -1,0 +1,46 @@
+{% extends "admin/core/base.html" %}
+{% load foundation %}
+
+{% block title %}Liquid XSLT Manager{% endblock %}
+
+{% block body %}
+<div class="box">
+    <div class="title-area">
+        <h2>XSLT Files</h2>
+    </div>
+    <div class="content">
+
+        <div class="bs-callout bs-callout-warning">
+            <p><span class="fa fa-exclamation-triangle"> </span> Warning: Editing XSLT will effect live renderings of JATS XML articles. This plugin does not retain a history of changes so you cannot revert to a previous version of the XSL file. You can select a file to edit below.</p>
+        </div>
+        <table class="table" id="xsl">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Comment</th>
+                    <th>Date Uploaded</th>
+                    <th>Edit</th>
+                    <th>Create New XSLT</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for file in xsl_files %}
+                    <tr>
+                        <td>{{ file.label }}</td>
+                        <td>{{ file.comments|linebreaksbr }}</td>
+                        <td>{{ file.date_uploaded }}</td>
+                        <td><a href="{% url 'liquidxslt_edit_xslt_file' file.pk %}" class="button info">Edit File</a></td>
+                        <td>
+                            <form method="POST">{% csrf_token %}<button class="button" name="new" value="{{ file.pk }}">Create new XSLT</button></form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock body %}
+
+{% block js %}
+    {% include "admin/elements/datatables.html" with target="#xsl" sort="2" order="desc" %}
+{% endblock js %}
