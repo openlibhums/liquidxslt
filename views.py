@@ -1,7 +1,6 @@
-import uuid
-
-from django.shortcuts import render, get_object_or_404, redirect, reverse
+from django.db.models import Q
 from django.contrib.admin.views.decorators import staff_member_required
+from django.shortcuts import render, get_object_or_404, redirect, reverse
 
 from core import models
 from plugins.liquidxslt import forms, logic
@@ -12,6 +11,11 @@ from security import decorators
 @staff_member_required
 def manager(request):
     xsl_files = models.XSLFile.objects.all()
+    if request.journal:
+        xsl_files = xsl_files.filter(
+            Q(journal=request.journal)
+            | Q(journal__isnull=True)
+        )
 
     if request.POST:
         xsl_file_id = request.POST.get('new')
@@ -19,18 +23,9 @@ def manager(request):
             models.XSLFile,
             pk=xsl_file_id,
         )
-        xsl_uuid = uuid.uuid4()
-        filename = '{}.xsl'.format(xsl_uuid)
-        new_file = models.XSLFile.objects.create(
-            label=xsl_uuid,
-            comments='XSL file created based on {}'.format(xsl_file.label),
-            original_filename=filename,
-        )
         logic.generate_child_xsl(
             request.journal,
-            filename,
             old_file=xsl_file,
-            new_file=new_file,
         )
 
     template = 'liquidxslt/manager.html'
