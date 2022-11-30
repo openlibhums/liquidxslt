@@ -1,4 +1,5 @@
 from django.db.models import Q
+from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
 from django.shortcuts import render, get_object_or_404, redirect, reverse
 
@@ -44,15 +45,19 @@ def edit_xslt_file(request, xsl_file_id):
         pk=xsl_file_id,
     )
     form = forms.XSLForm(
-        xsl_file=xsl_file,
+        instance=xsl_file,
     )
     if request.POST:
         form = forms.XSLForm(
             request.POST,
-            xsl_file=xsl_file,
+            instance=xsl_file,
         )
         if form.is_valid():
             form.save()
+            messages.add_message(
+                request, messages.INFO,
+                "XSLT file saved"
+            )
             return redirect(
                 reverse(
                     'liquidxslt_edit_xslt_file',
