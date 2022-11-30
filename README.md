@@ -1,6 +1,6 @@
 # liquidxslt
 
-The liquidxslt plugin lets you edit existing XSL stylesheet and generate new XSL stylesheets based on existing versions. When creating an XSL template the default content will have an import statement for the existing stylesheet. Using `<xsl: import>` over `<xsl: include>` means that you can easily override matches as the importing sheet has higher presendence than the imported sheet.
+The liquidxslt plugin lets you edit existing XSL stylesheets and generate new XSL stylesheets based on existing versions. When creating an XSL template, an import statement is included for the existing stylesheet. Using `<xsl: import>` over `<xsl: include>` means that you can easily override matches as the importing sheet has higher presendence than the imported sheet.
 
 
 ## example
