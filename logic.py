@@ -24,17 +24,22 @@ def generate_child_xsl(journal, old_file, filename=None):
         template_name='liquidxslt/child.xsl',
         context=context,
     )
-    path = os.path.join(
+    folder_path = os.path.join(
         settings.BASE_DIR,
         'files',
         'xsl',
         'journals',
         str(journal.pk),
-        filename,
     )
-    with open(path, 'w') as file:
+
+    if not os.path.exists(folder_path):
+        os.makedirs(folder_path)
+
+    file_path = os.path.join(folder_path, filename)
+
+    with open(file_path, 'w') as file:
         file.write(new_file_contents)
 
-    new_file.file.name = path
+    new_file.file.name = file_path
     new_file.save()
     return new_file
