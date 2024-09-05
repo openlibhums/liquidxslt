@@ -4,10 +4,10 @@ PLUGIN_NAME = 'Liquid XSLT Plugin'
 DISPLAY_NAME = 'Liquid XSLT'
 DESCRIPTION = 'A plugin for editing Janeway XSLT files.'
 AUTHOR = 'Andy Byers'
-VERSION = '0.1'
+VERSION = '0.2'
 SHORT_NAME = 'liquidxslt'
 MANAGER_URL = 'liquidxslt_manager'
-JANEWAY_VERSION = "1.3.8"
+JANEWAY_VERSION = "1.7.0"
 
 
 class LiquidxsltPlugin(plugins.Plugin):
